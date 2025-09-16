@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.demo.entity.Todo;
 import com.example.demo.repository.dao.TodoJpaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -120,6 +121,36 @@ class DemoApplicationTests {
     mockMvc.perform(put("/todos/{id}", 99)
         .contentType(MediaType.APPLICATION_JSON)
         .content(updateRequestBody))
+      .andExpect(status().isNotFound());
+
+  }
+
+
+
+  @Test
+  void should_delete_todo_when_id_invalid_then_return_404() throws Exception {
+    String requestBody = """
+                 {
+                    "text":"fourth todo",
+                    "done":false
+      
+                   }
+      """;
+    ResultActions perform = mockMvc.perform(post("/todos")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(requestBody));
+
+    MvcResult mvcResult = perform.andReturn();
+    String responseBody = mvcResult.getResponse().getContentAsString();
+    ObjectMapper objectMapper = new ObjectMapper();
+    Todo createdTodo = objectMapper.readValue(responseBody, Todo.class);
+
+    mockMvc.perform(get("/todos/{id}", createdTodo.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk());
+
+    mockMvc.perform(post("/todos/{id}/delete", 99)
+        .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNotFound());
 
   }

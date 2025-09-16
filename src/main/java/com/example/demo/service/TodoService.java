@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Todo;
+import com.example.demo.exception.InvalidTextException;
 import com.example.demo.repository.TodoRepository;
-import dto.TodoDTO;
+import com.example.demo.dto.TodoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +23,9 @@ public class TodoService {
   }
 
   public Todo createTodo(TodoDTO todo) {
+    if(todo.getText()==null || todo.getText().isEmpty()){
+      throw new InvalidTextException();
+    }
     return todoRepository.save(todo);
   }
 }

@@ -1,7 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Todo;
-import dto.TodoDTO;
+import com.example.demo.dto.TodoDTO;
 import java.util.List;
 
 

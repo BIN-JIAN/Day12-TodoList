@@ -3,7 +3,7 @@ package com.example.demo.repository.impl;
 import com.example.demo.entity.Todo;
 import com.example.demo.repository.TodoRepository;
 import com.example.demo.repository.dao.TodoJpaRepository;
-import dto.TodoDTO;
+import com.example.demo.dto.TodoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

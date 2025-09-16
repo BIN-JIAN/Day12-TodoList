@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Todo;
 import com.example.demo.service.TodoService;
-import dto.TodoDTO;
+import com.example.demo.dto.TodoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

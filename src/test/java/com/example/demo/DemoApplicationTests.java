@@ -50,4 +50,23 @@ class DemoApplicationTests {
       .andExpect(jsonPath("$.completed").value(false));
 
   }
+
+  @Test
+  void should_create_todo_when_post_todo_then_return_created() throws Exception {
+    String requestBody = """
+                 {
+                    "text":"second todo",
+                    "completed":false
+      
+                   }
+      """;
+
+    mockMvc.perform(post("/todos")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(requestBody))
+        .andExpect(status().isCreated())
+      .andExpect(jsonPath("$.text").value("second todo"))
+      .andExpect(jsonPath("$.completed").value(false));
+  }
+
 }

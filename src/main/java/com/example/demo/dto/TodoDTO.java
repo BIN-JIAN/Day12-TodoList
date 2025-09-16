@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoDTO {
+  private Long id;
   private String text;
   private Boolean completed;
 
   public TodoDTO(Todo createdTodo) {
+    this.id = createdTodo.getId();
     this.text = createdTodo.getText();
     this.completed = createdTodo.getCompleted();
   }

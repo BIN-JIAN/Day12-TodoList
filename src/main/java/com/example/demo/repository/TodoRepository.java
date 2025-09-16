@@ -13,5 +13,7 @@ public interface TodoRepository {
 
   Todo findById(Long id);
 
+  Todo update(Long id, TodoDTO todo);
+
 
 }

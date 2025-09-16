@@ -1,5 +1,6 @@
 package com.example.demo.handler;
 
+import com.example.demo.exception.InvalidIdException;
 import com.example.demo.exception.InvalidTextException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,12 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(InvalidTextException.class)
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public String handInvalidTextException(Exception e) {
+    return e.getMessage();
+  }
+
+  @ExceptionHandler(InvalidIdException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public String handInvalidIdException(Exception e) {
     return e.getMessage();
   }
 

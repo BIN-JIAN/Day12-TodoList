@@ -29,5 +29,14 @@ public class TodoRepositoryImpl implements TodoRepository {
     return todoJpaRepository.save(todo);
   }
 
+  public Todo update(Long id, TodoDTO todoDTO) {
+    Todo todo = todoJpaRepository.findById(id).orElse(null);
+    if (todo != null) {
+      todo.setText(todoDTO.getText());
+      todo.setCompleted(todoDTO.isCompleted());
+      todoJpaRepository.save(todo);
+    }
+    return todo;
+  }
 
 }

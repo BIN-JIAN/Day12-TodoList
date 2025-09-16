@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Todo;
+import com.example.demo.exception.InvalidIdException;
 import com.example.demo.exception.InvalidTextException;
 import com.example.demo.repository.TodoRepository;
 import com.example.demo.dto.TodoDTO;
@@ -27,5 +28,15 @@ public class TodoService {
       throw new InvalidTextException();
     }
     return todoRepository.save(todo);
+  }
+
+  public Todo updateTodo(Long id, TodoDTO todo) {
+    if(todo.getText()==null || todo.getText().isEmpty()){
+      throw new InvalidTextException();
+    }
+    if(todoRepository.findById(id) == null){
+      throw new InvalidIdException();
+    }
+    return todoRepository.update(id, todo);
   }
 }

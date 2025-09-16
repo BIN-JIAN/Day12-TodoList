@@ -10,9 +10,16 @@ import org.springframework.stereotype.Service;
 public class TodoService {
 
   @Autowired
-  private TodoRepository todoRepositroy;
+  private TodoRepository todoRepository;
 
   public List<Todo> findAllTodos() {
-    return todoRepositroy.findAll();
+    return todoRepository.findAll();
+  }
+  public Todo findTodoById(Long id) {
+    return todoRepository.findById(id);
+  }
+
+  public Todo createTodo(Todo todo) {
+    return todoRepository.save(todo);
   }
 }

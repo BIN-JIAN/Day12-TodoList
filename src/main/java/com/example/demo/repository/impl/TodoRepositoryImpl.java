@@ -17,5 +17,13 @@ public class TodoRepositoryImpl implements TodoRepository {
     return todoJpaRepository.findAll();
   }
 
+  public Todo findById(Long id) {
+    return todoJpaRepository.findById(id).orElse(null);
+  }
+
+  public Todo save(Todo todo) {
+    return todoJpaRepository.save(todo);
+  }
+
 
 }

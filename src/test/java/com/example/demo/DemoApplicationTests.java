@@ -46,7 +46,7 @@ class DemoApplicationTests {
     String requestBody = """
                  {
                     "text":"first todo",
-                    "completed":false
+                    "done":false
       
                    }
       """;
@@ -58,7 +58,7 @@ class DemoApplicationTests {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
       .andExpect(jsonPath("$.text").value("first todo"))
-      .andExpect(jsonPath("$.completed").value(false));
+      .andExpect(jsonPath("$.done").value(false));
 
   }
 
@@ -67,7 +67,7 @@ class DemoApplicationTests {
     String requestBody = """
                  {
                     "text":"second todo",
-                    "completed":false
+                    "done":false
       
                    }
       """;
@@ -77,7 +77,7 @@ class DemoApplicationTests {
         .content(requestBody))
         .andExpect(status().isCreated())
       .andExpect(jsonPath("$.text").value("second todo"))
-      .andExpect(jsonPath("$.completed").value(false));
+      .andExpect(jsonPath("$.done").value(false));
   }
 
   @Test
@@ -85,7 +85,7 @@ class DemoApplicationTests {
     String requestBody = """
                  {
                     "text":"",
-                    "completed":false
+                    "done":false
       
                    }
       """;
@@ -96,16 +96,16 @@ class DemoApplicationTests {
       .andExpect(status().isUnprocessableEntity());
   }
 
+
   @Test
-  void should_put_todo_when_put_todo_then_return_updated() throws Exception {
+  void should_put_todo_when_id_invalid_then_return_404() throws Exception {
     String requestBody = """
                  {
                     "text":"third todo",
-                    "completed":false
+                    "done":false
       
                    }
       """;
-
     ResultActions perform = mockMvc.perform(post("/todos")
       .contentType(MediaType.APPLICATION_JSON)
       .content(requestBody));
@@ -113,17 +113,15 @@ class DemoApplicationTests {
     String updateRequestBody = """
                  {
                     "text":"third todo updated",
-                    "completed":true
+                    "done":true
       
                    }
       """;
-
-    mockMvc.perform(put("/todos/{id}", 1)
+    mockMvc.perform(put("/todos/{id}", 99)
         .contentType(MediaType.APPLICATION_JSON)
         .content(updateRequestBody))
-      .andExpect(status().isOk())
-      .andExpect(jsonPath("$.text").value("third todo updated"))
-      .andExpect(jsonPath("$.completed").value(true));
+      .andExpect(status().isNotFound());
+
   }
 
 

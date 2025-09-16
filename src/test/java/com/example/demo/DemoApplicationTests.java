@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -152,6 +153,35 @@ class DemoApplicationTests {
     mockMvc.perform(post("/todos/{id}/delete", 99)
         .contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNotFound());
+
+  }
+
+  @Test
+  void should_delete_todo_when_id_valid_then_return_204() throws Exception {
+    String requestBody = """
+                 {
+                    "text":"fifth todo",
+                    "done":false
+      
+                   }
+      """;
+    ResultActions perform = mockMvc.perform(post("/todos")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(requestBody));
+
+    MvcResult mvcResult = perform.andReturn();
+    String responseBody = mvcResult.getResponse().getContentAsString();
+    ObjectMapper objectMapper = new ObjectMapper();
+    Todo createdTodo = objectMapper.readValue(responseBody, Todo.class);
+
+    mockMvc.perform(get("/todos/{id}", createdTodo.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk());
+
+    mockMvc.perform(delete("/todos/{id}", createdTodo.getId())
+        .contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNoContent());
+
 
   }
 

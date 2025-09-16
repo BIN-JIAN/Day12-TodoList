@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Todo;
 import com.example.demo.repository.TodoRepository;
+import dto.TodoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class TodoService {
     return todoRepository.findById(id);
   }
 
-  public Todo createTodo(Todo todo) {
+  public Todo createTodo(TodoDTO todo) {
     return todoRepository.save(todo);
   }
 }

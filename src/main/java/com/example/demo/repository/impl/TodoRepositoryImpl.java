@@ -39,4 +39,8 @@ public class TodoRepositoryImpl implements TodoRepository {
     return todo;
   }
 
+  public void delete(Long id) {
+    todoJpaRepository.deleteById(id);
+  }
+
 }

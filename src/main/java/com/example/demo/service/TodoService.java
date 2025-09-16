@@ -39,4 +39,12 @@ public class TodoService {
     }
     return todoRepository.update(id, todo);
   }
+
+  public ResponseEntity<Void> deleteTodo(Long id) {
+    if(todoRepository.findById(id) == null){
+      throw new InvalidIdException();
+    }
+    todoRepository.delete(id);
+    return ResponseEntity.noContent().build();
+  }
 }

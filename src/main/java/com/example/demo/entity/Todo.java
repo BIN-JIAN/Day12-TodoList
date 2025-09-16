@@ -20,6 +20,6 @@ public class Todo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String text;
-  private Boolean completed = false;
+  private Boolean done = false;
 
 }

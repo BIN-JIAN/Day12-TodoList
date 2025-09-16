@@ -1,5 +1,5 @@
 CREATE TABLE t_todolist (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           text VARCHAR(255) NOT NULL,
-                          completed BOOLEAN NOT NULL
+                          done BOOLEAN NOT NULL
 );

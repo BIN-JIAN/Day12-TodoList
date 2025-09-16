@@ -25,7 +25,7 @@ public class TodoRepositoryImpl implements TodoRepository {
   public Todo save(TodoDTO todoDTO) {
     Todo todo = new Todo();
     todo.setText(todoDTO.getText());
-    todo.setCompleted(todoDTO.isCompleted());
+    todo.setDone(todoDTO.isDone());
     return todoJpaRepository.save(todo);
   }
 
@@ -33,7 +33,7 @@ public class TodoRepositoryImpl implements TodoRepository {
     Todo todo = todoJpaRepository.findById(id).orElse(null);
     if (todo != null) {
       todo.setText(todoDTO.getText());
-      todo.setCompleted(todoDTO.isCompleted());
+      todo.setDone(todoDTO.isDone());
       todoJpaRepository.save(todo);
     }
     return todo;

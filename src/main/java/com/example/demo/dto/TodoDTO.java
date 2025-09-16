@@ -9,17 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TodoDTO {
-  private Long id;
   private String text;
-  private Boolean completed;
+  private Boolean done;
 
   public TodoDTO(Todo createdTodo) {
-    this.id = createdTodo.getId();
     this.text = createdTodo.getText();
-    this.completed = createdTodo.getCompleted();
+    this.done = createdTodo.getDone();
   }
 
-  public Boolean isCompleted() {
-    return completed;
+  public Boolean isDone() {
+    return done;
   }
 }

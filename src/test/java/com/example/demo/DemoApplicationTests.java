@@ -69,4 +69,20 @@ class DemoApplicationTests {
       .andExpect(jsonPath("$.completed").value(false));
   }
 
+  @Test
+  void should_create_todo_when_text_is_empty_then_return_422() throws Exception {
+    String requestBody = """
+                 {
+                    "text":"",
+                    "completed":false
+      
+                   }
+      """;
+
+    mockMvc.perform(post("/todos")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(requestBody))
+      .andExpect(status().isUnprocessableEntity());
+  }
+
 }

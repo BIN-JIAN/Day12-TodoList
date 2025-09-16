@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,5 +27,27 @@ class DemoApplicationTests {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$").isArray())
         .andExpect(jsonPath("$").isEmpty());
+  }
+
+  @Test
+  void shoule_list_one_todo_when_one_todo_then_return_one() throws Exception {
+
+    String requestBody = """
+                 {
+                    "text":"first todo",
+                    "completed":false
+      
+                   }
+      """;
+    mockMvc.perform(post("/todos")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(requestBody));
+
+    mockMvc.perform(get("/todos/{id}", 1)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+      .andExpect(jsonPath("$.text").value("first todo"))
+      .andExpect(jsonPath("$.completed").value(false));
+
   }
 }

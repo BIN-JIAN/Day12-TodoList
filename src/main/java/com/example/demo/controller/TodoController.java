@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TodoDTO;
 import com.example.demo.entity.Todo;
 import com.example.demo.service.TodoService;
-import com.example.demo.dto.TodoDTO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,37 +17,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/todos")
 public class TodoController {
 
-    @Autowired
-    private TodoService todoService;
+  @Autowired
+  private TodoService todoService;
 
-    @GetMapping
-    public ResponseEntity<List<Todo>> getAllTodos() {
-        List<Todo> todos = todoService.findAllTodos();
-        return ResponseEntity.ok(todos);
-    }
+  @GetMapping
+  public ResponseEntity<List<Todo>> getAllTodos() {
+    List<Todo> todos = todoService.findAllTodos();
+    return ResponseEntity.ok(todos);
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable long id) {
-        Todo todo = todoService.findTodoById(id);
-        return ResponseEntity.ok(todo);
-    }
-    @PostMapping
-    public ResponseEntity<Todo> createTodo(@RequestBody TodoDTO todo) {
-        return ResponseEntity.created(null).body(todoService.createTodo(todo));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Todo> getTodoById(@PathVariable long id) {
+    Todo todo = todoService.findTodoById(id);
+    return ResponseEntity.ok(todo);
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TodoDTO> updateTodo(@PathVariable long id,@RequestBody TodoDTO todo) {
-        Todo updatedTodo = todoService.updateTodo(id,todo);
-        return ResponseEntity.ok(new TodoDTO(updatedTodo));
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable long id) {
-        todoService.deleteTodo(id);
-        return ResponseEntity.noContent().build();
-    }
+  @PostMapping
+  public ResponseEntity<Todo> createTodo(@RequestBody TodoDTO todo) {
+    return ResponseEntity.created(null).body(todoService.createTodo(todo));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<TodoDTO> updateTodo(@PathVariable long id, @RequestBody TodoDTO todo) {
+    Todo updatedTodo = todoService.updateTodo(id, todo);
+    return ResponseEntity.ok(new TodoDTO(updatedTodo));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteTodo(@PathVariable long id) {
+    todoService.deleteTodo(id);
+    return ResponseEntity.noContent().build();
+  }
 }

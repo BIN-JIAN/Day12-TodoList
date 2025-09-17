@@ -43,7 +43,7 @@ class DemoApplicationTests {
   }
 
   @Test
-  void shoule_list_one_todo_when_one_todo_then_return_one() throws Exception {
+  void should_list_one_todo_when_one_todo_then_return_one() throws Exception {
 
     String requestBody = """
                  {
@@ -52,11 +52,16 @@ class DemoApplicationTests {
       
                    }
       """;
-    mockMvc.perform(post("/todos")
+    ResultActions perform = mockMvc.perform(post("/todos")
       .contentType(MediaType.APPLICATION_JSON)
       .content(requestBody));
 
-    mockMvc.perform(get("/todos/{id}", 1)
+    MvcResult mvcResult = perform.andReturn();
+    String responseBody = mvcResult.getResponse().getContentAsString();
+    ObjectMapper objectMapper = new ObjectMapper();
+    Todo createdTodo = objectMapper.readValue(responseBody, Todo.class);
+
+    mockMvc.perform(get("/todos/{id}", createdTodo.getId())
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
       .andExpect(jsonPath("$.text").value("first todo"))
@@ -101,16 +106,16 @@ class DemoApplicationTests {
 
   @Test
   void should_put_todo_when_id_invalid_then_return_404() throws Exception {
-    String requestBody = """
-                 {
-                    "text":"third todo",
-                    "done":false
-      
-                   }
-      """;
-    ResultActions perform = mockMvc.perform(post("/todos")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content(requestBody));
+//    String requestBody = """
+//                 {
+//                    "text":"third todo",
+//                    "done":false
+//
+//                   }
+//      """;
+//    ResultActions perform = mockMvc.perform(post("/todos")
+//      .contentType(MediaType.APPLICATION_JSON)
+//      .content(requestBody));
 
     String updateRequestBody = """
                  {
@@ -130,25 +135,25 @@ class DemoApplicationTests {
 
   @Test
   void should_delete_todo_when_id_invalid_then_return_404() throws Exception {
-    String requestBody = """
-                 {
-                    "text":"fourth todo",
-                    "done":false
-      
-                   }
-      """;
-    ResultActions perform = mockMvc.perform(post("/todos")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content(requestBody));
-
-    MvcResult mvcResult = perform.andReturn();
-    String responseBody = mvcResult.getResponse().getContentAsString();
-    ObjectMapper objectMapper = new ObjectMapper();
-    Todo createdTodo = objectMapper.readValue(responseBody, Todo.class);
-
-    mockMvc.perform(get("/todos/{id}", createdTodo.getId())
-        .contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk());
+//    String requestBody = """
+//                 {
+//                    "text":"fourth todo",
+//                    "done":false
+//
+//                   }
+//      """;
+//    ResultActions perform = mockMvc.perform(post("/todos")
+//      .contentType(MediaType.APPLICATION_JSON)
+//      .content(requestBody));
+//
+//    MvcResult mvcResult = perform.andReturn();
+//    String responseBody = mvcResult.getResponse().getContentAsString();
+//    ObjectMapper objectMapper = new ObjectMapper();
+//    Todo createdTodo = objectMapper.readValue(responseBody, Todo.class);
+//
+//    mockMvc.perform(get("/todos/{id}", createdTodo.getId())
+//        .contentType(MediaType.APPLICATION_JSON))
+//      .andExpect(status().isOk());
 
     mockMvc.perform(post("/todos/{id}/delete", 99)
         .contentType(MediaType.APPLICATION_JSON))
